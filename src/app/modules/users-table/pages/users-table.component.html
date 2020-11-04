@@ -1,0 +1,91 @@
+<div class="header">
+  <h3>All Users</h3>
+  <div class="magnifying-glass"></div>
+  <input class="search-box" placeholder="Search" [(ngModel)] = "search" (ngModelChange) = "onSearch()">
+</div>
+
+<table class="users-table">
+  <thead>
+  <tr class="table-header">
+    <th (click)="sortBy('name')">
+      <div class="header">
+        <span class="description">Name</span>
+        <span [ngClass]="{'desc': isColumnSorted('name', -1),  'asc': isColumnSorted('name', 1)}">
+        </span>
+      </div>
+    </th>
+    <th (click)="sortBy('username')">
+      <div class="header">
+        <span class="description">Username</span>
+        <span [ngClass]="{'desc': isColumnSorted('username', -1),  'asc': isColumnSorted('username', 1)}">
+        </span>
+      </div>
+    </th>
+    <th (click)="sortBy('email')">
+      <div class="header">
+        <span class="description">Email</span>
+        <span [ngClass]="{'desc': isColumnSorted('email', -1),  'asc': isColumnSorted('email', 1)}">
+        </span>
+      </div>
+    </th>
+    <th (click)="sortBy('address')">
+      <div class="header">
+        <span class="description">Address</span>
+        <span [ngClass]="{'desc': isColumnSorted('address', -1),  'asc': isColumnSorted('address', 1)}">
+        </span>
+      </div>
+    </th>
+    <th (click)="sortBy('phone')">
+      <div class="header">
+        <span class="description">Phone</span>
+        <span [ngClass]="{'desc': isColumnSorted('phone', -1),  'asc': isColumnSorted('phone', 1)}">
+        </span>
+      </div>
+    </th>
+    <th (click)="sortBy('website')">
+      <div class="header">
+        <span class="description">Website</span>
+        <span [ngClass]="{'desc': isColumnSorted('website', -1),  'asc': isColumnSorted('website', 1)}">
+        </span>
+      </div>
+    </th>
+    <th (click)="sortBy('company')">
+      <div class="header">
+        <span class="description">Company</span>
+        <span [ngClass]="{'desc': isColumnSorted('company', -1),  'asc': isColumnSorted('company', 1)}">
+        </span>
+      </div>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngFor="let user of users">
+    <tr class="table-main-row" (click)="onOpenUserComments(user)">
+      <td>{{user.name}}</td>
+      <td>{{user.username}}</td>
+      <td>{{user.email}}</td>
+      <td><a href="{{user.mapLink}}" target="_blank">{{user.addressDescription}}</a></td>
+      <td>{{user.phone}}</td>
+      <td><a href="http://{{user.website}}" target="_blank">{{user.website}}</a></td>
+      <td class="tooltip">
+        {{user.company.name}}
+        <span class="tooltiptext">{{user.company.bs}}</span>
+      </td>
+    </tr>
+    <ng-container *ngIf="user.id === userExpendedId">
+      <tr class="expended-row" *ngFor="let comment of userComments | async">
+        <td colspan="7">
+          <div class="td">
+            <strong>Title</strong>
+            <div>{{comment.title}}</div>
+          </div>
+          <div class="td">
+            <strong>Body</strong>
+            <div>{{comment.body}}</div>
+          </div>
+        </td>
+      </tr>
+    </ng-container>
+  </ng-container>
+  </tbody>
+</table>
